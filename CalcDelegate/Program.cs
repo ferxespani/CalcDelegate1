@@ -6,17 +6,15 @@ namespace CalcDelegate
     {
         static void Main(string[] args)
         {
-            Calc calc = new Calc(new Calc.LogToConsole(Show_Message));
-            calc.Sum();
-            calc.Sub();
-            calc.Multiplication();
-            calc.Dividing();
+            Calc calc = new Calc();
+            calc.DoOperation(calc.Sum);
+            Console.WriteLine();
+            calc.DoOperation(calc.Sub);
+            Console.WriteLine();
+            calc.DoOperation(calc.Multiplication);
+            Console.WriteLine();
+            calc.DoOperation(calc.Dividing);
+            Console.WriteLine();
         }
-
-        private static void Show_Message(string message)
-        {
-            Console.WriteLine(message);
-        }
-
     }
 }

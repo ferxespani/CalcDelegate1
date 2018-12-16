@@ -7,19 +7,22 @@ namespace CalcDelegate
 {
     class Calc
     {
-        public delegate void LogToConsole(string msg);
-        LogToConsole _l;
+        public delegate double Operation();
         public Settings s = File.Exists("json.json") ? JsonConvert.DeserializeObject<Settings>(File.ReadAllText("json.json")) : new Settings { };
 
-        public Calc(LogToConsole l)
+        public Calc()
         {
-            _l = l;
         }
 
-        
-        public void Sum()
+        public void DoOperation(Operation operation)
         {
-            int result = 0;
+            var result = operation();
+            Console.WriteLine(result);
+        }
+        
+        public double Sum()
+        {
+            double result = 0;
             string temp = " ";
             for (int i = 0; i < s.Operations.Length; i++)
             {
@@ -41,7 +44,7 @@ namespace CalcDelegate
                             }
                             temp += s.Numbers[j].ToString();
 
-                            result += int.Parse(temp.ToString());
+                            result += double.Parse(temp.ToString());
 
                             temp = " ";
                         }
@@ -49,13 +52,14 @@ namespace CalcDelegate
                     break;
                 }
             }
-            _l($"Sum of numbers {s.Numbers}: {result}");
+            Console.Write($"Sum of {s.Numbers} equals   ");
+            return result;
         }
 
         
-        public void Sub()
+        public double Sub()
         {
-            int result = 0;
+            double result = 0;
             string temp = "";
             for (int i = 0; i < s.Operations.Length; i++)
             {
@@ -78,9 +82,9 @@ namespace CalcDelegate
                             temp += s.Numbers[j].ToString();
 
                             if (j == 0)
-                                result = int.Parse(s.Numbers[j].ToString());
+                                result = double.Parse(s.Numbers[j].ToString());
                             else
-                                result -= int.Parse(temp.ToString());
+                                result -= double.Parse(temp.ToString());
 
                             temp = "";
                         }
@@ -88,12 +92,13 @@ namespace CalcDelegate
                     break;
                 }
             }
-            _l($"Sub of numbers {s.Numbers}: {result}");
+            Console.Write($"Sub of {s.Numbers} equals   ");
+            return result;
         }
 
-        public void Multiplication()
+        public double Multiplication()
         {
-            int result = 0;
+            double result = 0;
             string temp = "";
             for (int i = 0; i < s.Operations.Length; i++)
             {
@@ -116,11 +121,11 @@ namespace CalcDelegate
                             temp += s.Numbers[j].ToString();
 
                             if (j == 0)
-                                result = int.Parse(s.Numbers[j].ToString());
+                                result = double.Parse(s.Numbers[j].ToString());
                             else if (result == 0 && temp != "")
-                                result = int.Parse(temp.ToString());
+                                result = double.Parse(temp.ToString());
                             else
-                                result *= int.Parse(temp.ToString());
+                                result *= double.Parse(temp.ToString());
 
                             temp = "";
                         }
@@ -128,10 +133,11 @@ namespace CalcDelegate
                     break;
                 }
             }
-            _l($"Multiplication of numbers {s.Numbers}: {result}");
+            Console.Write($"Multiply of {s.Numbers} equals   ");
+            return result;
         }
 
-        public void Dividing()
+        public double Dividing()
         {
             double result = 0;
             string temp = "";
@@ -168,7 +174,8 @@ namespace CalcDelegate
                     break;
                 }
             }
-            _l($"Dividing of numbers {s.Numbers}: {result}");
+            Console.Write($"Dividing of {s.Numbers} equals   ");
+            return result;
         }
     }
 }
